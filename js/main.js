@@ -1,6 +1,7 @@
 import BackGround from './runtime/background';
 import DataBus from './databus';
 import Player from './player/index';
+import Mouse from './mouse/mouse';
 
 let ctx = canvas.getContext('2d');
 let databus = new DataBus();
@@ -8,26 +9,51 @@ export default class Main {
     constructor() {
         this.restart();
     }
-    restart(){    
+    restart() {
         databus.init();
         this.bg = new BackGround(ctx);
         this.player = new Player(ctx);
         this.loop();
     }
-    render(){
-        // ctx.clearRect(0, 0, canvas.width, canvas.height)
-        this.bg.render(ctx)
-        this.player.drawToCanvas(ctx)
-    }
-    update(){
-        if(databus.gameOver){
-            return
+    // 随机显示地鼠
+    enemyGenerate() {
+        if (databus.frame % 30 === 0) {
+            let enemy = databus.pool.getItemByClass('enemy', Mouse)
+            enemy.init(6)
+            // console.log(enemy);
+
+            databus.enemys.push(enemy)
         }
     }
-    loop(){
-        this.update();
+    render() {
+        // ctx.clearRect(0, 0, canvas.width, canvas.height)
+        this.bg.render(ctx)
+        databus.bullets
+            .concat(databus.enemys)
+            .forEach((item) => {
+                item.drawToCanvas(ctx)
+            })
+        this.player.drawToCanvas(ctx)
+        databus.animations.forEach((ani) => {
+            if (ani.isPlaying) {
+                ani.aniRender(ctx)
+            }
+        })
+
+    }
+    update() {
+        if (databus.gameOver) {
+            return
+        }
+        // this.bg.update()
+        this.enemyGenerate()
+    }
+    loop() {
+        databus.frame++
+
+            this.update();
         this.render()
-        window.requestAnimationFrame(this.loop.bind(this),canvas)
+        window.requestAnimationFrame(this.loop.bind(this), canvas)
     }
 }
 
