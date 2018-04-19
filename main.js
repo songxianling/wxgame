@@ -1,5 +1,6 @@
 import BackGround from './runtime/background';
 import DataBus from './databus';
+import Player from './player/index';
 
 let ctx = canvas.getContext('2d');
 let databus = new DataBus();
@@ -10,11 +11,13 @@ export default class Main {
     restart(){    
         databus.init();
         this.bg = new BackGround(ctx);
+        this.player = new Player(ctx);
         this.loop();
     }
     render(){
         // ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.bg.render(ctx)
+        this.player.drawToCanvas(ctx)
     }
     update(){
         if(databus.gameOver){

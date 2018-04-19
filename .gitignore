@@ -3,5 +3,6 @@
 .buildpath
 .project
 .idea/*
+sss.sh
 .DS_Store
 */.DS_Store
