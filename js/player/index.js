@@ -81,6 +81,9 @@ export default class Player extends Sprite {
             if (this.checkIsFingerOnAir(x, y)) {
                 this.touched = true
                 this.setAirPosAcrossFingerPosZ(x, y)
+                // console.log(databus.enemys);
+                
+
             }
             
         }).bind(this))

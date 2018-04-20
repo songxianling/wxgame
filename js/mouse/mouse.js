@@ -1,9 +1,9 @@
 import Animation from '../base/animation'
 import DataBus from '../databus'
 
-const MOUSE_IMG_SRC = 'images/c6.ico'
-const MOUSE_WIDTH = 70
-const MOUSE_HEIGHT = 70
+const MOUSE_IMG_SRC = 'images/g3.png'
+const MOUSE_WIDTH = 50
+const MOUSE_HEIGHT = 50
 
 const __ = {
     speed: Symbol('speed')
@@ -21,9 +21,22 @@ export default class Mouse extends Animation {
 
     }
 
-    init(speed) {
-        this.x = rnd(0, window.innerWidth - MOUSE_WIDTH);
-        this.y = rnd(0, window.innerHeight - MOUSE_HEIGHT);
+    init(speed,i) {
+        // this.x = rnd(0, window.innerWidth - MOUSE_WIDTH);
+        // this.y = rnd(0, window.innerHeight - MOUSE_HEIGHT);
+        let mouseGridList = [
+            {x:70,y:215},
+            {x:166,y:215},
+            {x:255,y:215},
+            {x:60,y:339},
+            {x:166,y:339},
+            {x:255,y:339},
+            {x:60,y:479},
+            {x:166,y:479},
+            {x:255,y:479}
+        ];
+        this.x = mouseGridList[i].x;
+        this.y = mouseGridList[i].y;
         this[__.speed] = speed
         this.visible = true
     }

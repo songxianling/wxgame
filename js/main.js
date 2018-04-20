@@ -13,16 +13,39 @@ export default class Main {
         databus.init();
         this.bg = new BackGround(ctx);
         this.player = new Player(ctx);
+        // this.mouse1 = new Mouse(ctx);
         this.loop();
+        // this.mouse1.init(6,2)
+        // let enemy1 = databus.pool.getItemByClass('enemy', Mouse)
+        // enemy1.init(6, 1)
+        // enemy1.visible = false
+        // console.log(enemy1);
+
+        // databus.enemys.push(enemy1)
+        // let enemy2 = databus.pool.getItemByClass('enemy', Mouse)
+        // enemy2.init(6, 2)
+        // databus.enemys.push(enemy2)
+
+        for (let i = 0; i < 9; i++) {
+            let enemy = 'enemy' + i;
+            enemy = databus.pool.getItemByClass('enemy', Mouse)
+            enemy.init(6, i)
+            console.log(1);
+            enemy.visible = false
+            databus.enemys.push(enemy)
+        }
     }
     // 随机显示地鼠
     enemyGenerate() {
         if (databus.frame % 30 === 0) {
-            let enemy = databus.pool.getItemByClass('enemy', Mouse)
-            enemy.init(6)
-            // console.log(enemy);
-
-            databus.enemys.push(enemy)
+            // let enemy = databus.pool.getItemByClass('enemy', Mouse)
+            // enemy.init(6, rnd(0, 9))
+            let i = rnd(0, 9);
+            databus.enemys[i].visible = true
+            // console.log(databus.enemys);
+            setTimeout(function(){
+                databus.enemys[i].visible = false
+            },1000)
         }
     }
     render() {
@@ -34,11 +57,11 @@ export default class Main {
                 item.drawToCanvas(ctx)
             })
         this.player.drawToCanvas(ctx)
-        databus.animations.forEach((ani) => {
-            if (ani.isPlaying) {
-                ani.aniRender(ctx)
-            }
-        })
+        // databus.animations.forEach((ani) => {
+        //     if (ani.isPlaying) {
+        //         ani.aniRender(ctx)
+        //     }
+        // })
 
     }
     update() {
@@ -57,7 +80,9 @@ export default class Main {
     }
 }
 
-
+function rnd(start, end) {
+    return Math.floor(Math.random() * (end - start) + start)
+}
 
 
 
