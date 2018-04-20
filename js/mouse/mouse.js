@@ -1,5 +1,4 @@
 import Animation from '../base/animation'
-import DataBus from '../databus'
 
 const MOUSE_IMG_SRC = 'images/g3.png'
 const MOUSE_WIDTH = 50
@@ -8,8 +7,6 @@ const MOUSE_HEIGHT = 50
 const __ = {
     speed: Symbol('speed')
 }
-
-let databus = new DataBus()
 
 function rnd(start, end) {
     return Math.floor(Math.random() * (end - start) + start)
@@ -26,14 +23,14 @@ export default class Mouse extends Animation {
         // this.y = rnd(0, window.innerHeight - MOUSE_HEIGHT);
         let mouseGridList = [
             {x:70,y:215},
-            {x:166,y:215},
-            {x:255,y:215},
-            {x:60,y:339},
-            {x:166,y:339},
-            {x:255,y:339},
-            {x:60,y:479},
-            {x:166,y:479},
-            {x:255,y:479}
+            {x:160,y:215},
+            {x:250,y:215},
+            {x:60,y:340},
+            {x:160,y:340},
+            {x:255,y:340},
+            {x:60,y:480},
+            {x:160,y:480},
+            {x:260,y:480}
         ];
         this.x = mouseGridList[i].x;
         this.y = mouseGridList[i].y;

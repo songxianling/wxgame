@@ -1,10 +1,8 @@
 import BackGround from './runtime/background';
-import DataBus from './databus';
 import Player from './player/index';
 import Mouse from './mouse/mouse';
 
 let ctx = canvas.getContext('2d');
-let databus = new DataBus();
 export default class Main {
     constructor() {
         this.restart();
@@ -15,38 +13,35 @@ export default class Main {
         this.player = new Player(ctx);
         // this.mouse1 = new Mouse(ctx);
         this.loop();
-        // this.mouse1.init(6,2)
-        // let enemy1 = databus.pool.getItemByClass('enemy', Mouse)
-        // enemy1.init(6, 1)
-        // enemy1.visible = false
-        // console.log(enemy1);
-
-        // databus.enemys.push(enemy1)
-        // let enemy2 = databus.pool.getItemByClass('enemy', Mouse)
-        // enemy2.init(6, 2)
-        // databus.enemys.push(enemy2)
-
         for (let i = 0; i < 9; i++) {
             let enemy = 'enemy' + i;
             enemy = databus.pool.getItemByClass('enemy', Mouse)
             enemy.init(6, i)
-            console.log(1);
             enemy.visible = false
             databus.enemys.push(enemy)
         }
+        this.renderGameScore(ctx,databus.score)
     }
+
     // 随机显示地鼠
     enemyGenerate() {
         if (databus.frame % 30 === 0) {
-            // let enemy = databus.pool.getItemByClass('enemy', Mouse)
-            // enemy.init(6, rnd(0, 9))
             let i = rnd(0, 9);
             databus.enemys[i].visible = true
-            // console.log(databus.enemys);
-            setTimeout(function(){
+            setTimeout(function () {
                 databus.enemys[i].visible = false
-            },1000)
+            }, 3000)
         }
+    }
+    renderGameScore(ctx, score) {
+        ctx.fillStyle = "#ffffff"
+        ctx.font = "20px Arial"
+
+        ctx.fillText(
+            score,
+            100,
+            100,100,100
+        )
     }
     render() {
         // ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -62,6 +57,7 @@ export default class Main {
         //         ani.aniRender(ctx)
         //     }
         // })
+        this.renderGameScore(ctx,databus.score)
 
     }
     update() {

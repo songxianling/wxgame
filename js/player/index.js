@@ -1,14 +1,12 @@
 import Sprite from '../base/sprite'
-import DataBus from '../databus'
 
 const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
-const PLAYER_IMG_SRC = 'images/c5.ico'
+const PLAYER_IMG_SRC = 'images/c5.png'
 const PLAYER_WIDTH = 70
 const PLAYER_HEIGHT = 70
 
-let databus = new DataBus()
 
 export default class Player extends Sprite {
     constructor() {
@@ -75,17 +73,46 @@ export default class Player extends Sprite {
     initEvent() {
         canvas.addEventListener('touchstart', ((e) => {
             e.preventDefault()
-
+            this.img.src = 'images/c6.png'
             let x = e.touches[0].clientX
             let y = e.touches[0].clientY
             if (this.checkIsFingerOnAir(x, y)) {
                 this.touched = true
+                let i
+                if(x>=80 && x<=130 && y>=210 && y<= 250){
+                    i = 0
+                }else if(x>=170 && x<=220 && y>=210 && y<= 250){
+                    i = 1
+                }else if(x>=260 && x<=310 && y>=210 && y<= 250){
+                    i = 2
+                }else if(x>=70 && x<=120 && y>=340 && y<= 380){
+                    i = 3
+                }else if(x>=170 && x<=220 && y>=340 && y<= 380){
+                    i = 4
+                }else if(x>=265 && x<=315 && y>=340 && y<= 380){
+                    i = 5
+                }else if(x>=70 && x<=120 && y>=480 && y<= 520){
+                    i = 6
+                }else if(x>=170 && x<=220 && y>=480 && y<= 520){
+                    i = 7
+                }else if(x>=265 && x<=315 && y>=480 && y<= 520){
+                    i = 8
+                }
+                if(i+1 && databus.enemys[i].visible){
+                    
+                    
+                    databus.score += 5
+                    databus.enemys[i].visible = false
+                }
+                console.log(this.img)
                 this.setAirPosAcrossFingerPosZ(x, y)
                 // console.log(databus.enemys);
-                
-
             }
             
+        }).bind(this))
+        canvas.addEventListener('touchend', ((e) => {
+            e.preventDefault()
+            this.img.src = 'images/c5.png'
         }).bind(this))
     }
 }

@@ -13,6 +13,7 @@ export default class DataBus {
     }
     init() {
         this.frame = 0
+        this.score = 0
         this.bullets = []
         this.enemys = []
         this.gameOver = false
