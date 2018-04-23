@@ -99,12 +99,13 @@ export default class Player extends Sprite {
                     i = 8
                 }
                 if(i+1 && databus.enemys[i].visible){
-                    
-                    
                     databus.score += 5
-                    databus.enemys[i].visible = false
+                    databus.enemys[i].initExplosionAnimation()
+                    databus.enemys[i].playAnimation()
+                    // databus.enemys[i].img.src = 'images/g6.png'
+                    // databus.enemys[i].visible = false
                 }
-                console.log(this.img)
+                // console.log(this.img)
                 this.setAirPosAcrossFingerPosZ(x, y)
                 // console.log(databus.enemys);
             }

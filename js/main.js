@@ -52,11 +52,11 @@ export default class Main {
                 item.drawToCanvas(ctx)
             })
         this.player.drawToCanvas(ctx)
-        // databus.animations.forEach((ani) => {
-        //     if (ani.isPlaying) {
-        //         ani.aniRender(ctx)
-        //     }
-        // })
+        databus.animations.forEach((ani) => {
+            if (ani.isPlaying) {
+                ani.aniRender(ctx)
+            }
+        })
         this.renderGameScore(ctx,databus.score)
 
     }
@@ -79,37 +79,3 @@ export default class Main {
 function rnd(start, end) {
     return Math.floor(Math.random() * (end - start) + start)
 }
-
-
-
-// export default class Main {
-//     constructor() {
-//         this.ctx = ctx;
-//         const WIDTH = canvas.width;
-//         const HEIGHT = canvas.height;
-//         // 背景
-//         let bg = wx.createImage();
-//         bg.src = 'images/timg.jpg';
-//         bg.onload = function () {
-//             ctx.drawImage(bg, 0, 0, WIDTH, HEIGHT)
-//         }
-//         // 锤子
-//         let c = wx.createImage();
-//         c.src = 'images/c5.ico';
-//         console.log(this.dataBus);
-
-//         c.onload = function () {
-//             ctx.drawImage(c, dataBus.cx, dataBus.cy, 70, 70)
-//         }
-//         let c6 = wx.createImage();
-//         c6.src = 'images/c6.ico';
-//         wx.onTouchStart(function (e) {     
-//             dataBus.cx = e.touches[0].clientX;
-//             dataBus.cy = e.touches[0].clientY - 14;
-//             console.log(dataBus);
-//             ctx.drawImage(bg, 0, 0, WIDTH, HEIGHT)
-//             ctx.drawImage(c, dataBus.cx, dataBus.cy, 70, 70)
-//             // console.log(e.touches[0].clientX, e.touches[0].clientY)
-//         });
-//     }
-// }

@@ -50,7 +50,8 @@ export default class Animation extends Sprite {
 
             this.imgList.push(img)
         })
-
+        console.log(imgList);
+        
         this.count = imgList.length
     }
 
