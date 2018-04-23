@@ -29,11 +29,6 @@ export default class Player extends Sprite {
 
     checkIsFingerOnAir(x, y) {
         const deviation = 30
-
-        // return !!(x >= this.x - deviation &&
-        //     y >= this.y - deviation &&
-        //     x <= this.x + this.width + deviation &&
-        //     y <= this.y + this.height + deviation)
         console.log(x,y);
         
         return !!(x >= 30 && 
@@ -102,13 +97,10 @@ export default class Player extends Sprite {
                     databus.score += 5
                     databus.enemys[i].initExplosionAnimation()
                     databus.enemys[i].playAnimation()
-                    // databus.enemys[i].img.src = 'images/g6.png'
-                    // databus.enemys[i].visible = false
                 }
-                // console.log(this.img)
                 this.setAirPosAcrossFingerPosZ(x, y)
-                // console.log(databus.enemys);
             }
+            console.log(databus.startBtn);
             
         }).bind(this))
         canvas.addEventListener('touchend', ((e) => {

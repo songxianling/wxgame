@@ -18,6 +18,13 @@ export default class DataBus {
         this.enemys = []
         this.gameOver = false
         this.animations = []
+        this.startNum = 3
+        this.startBtn = {
+            startX: screenWidth / 2 - 50,
+            startY: screenHeight / 2 - 100 + 355,
+            endX: screenWidth / 2 + 100,
+            endY: screenHeight / 2 - 100 + 395
+        }
     }
     removeEnemey(enemy) {
         let temp = this.enemys.shift()

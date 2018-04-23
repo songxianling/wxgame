@@ -1,4 +1,5 @@
 import Sprite from './sprite'
+import DataBus from '../databus'
 
 const __ = {
     timer: Symbol('timer'),
@@ -50,8 +51,7 @@ export default class Animation extends Sprite {
 
             this.imgList.push(img)
         })
-        console.log(imgList);
-        
+
         this.count = imgList.length
     }
 

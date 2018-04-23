@@ -46,18 +46,6 @@ export default class Mouse extends Animation {
     }
     // 爆炸
     initExplosionAnimation() {
-       
-        // let curSrc = this.img.src;
-        // console.log(curSrc);
-        // const EXPLO_IMG_PREFIX = 'images/enemy1_down'
-        // const EXPLO_FRAME_COUNT = 4
-        // for (let i = 0; i < EXPLO_FRAME_COUNT; i++) {
-        //     this.img.src = (EXPLO_IMG_PREFIX + (i + 1) + '.png')
-        // }
-        // // this.img.src = 'images/g6.png'
-        // setTimeout(function(){
-        //     this.visible = false
-        // },5000)
         let frames = []
         const EXPLO_IMG_PREFIX = 'images/enemy1_down'
         const EXPLO_FRAME_COUNT = 4
@@ -65,6 +53,5 @@ export default class Mouse extends Animation {
             frames.push(EXPLO_IMG_PREFIX + (i + 1) + '.png')
         }
         this.initFrames(frames)
-
     }
 }
