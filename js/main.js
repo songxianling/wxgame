@@ -26,14 +26,12 @@ export default class Main {
             databus.enemys.push(enemy)
         }
         this.renderGameScore(ctx, databus.score)
-
         this.bindLoop = this.loop.bind(this)
         // 清除上一局的动画
         console.log('重新开始游戏');
         // 监听按钮点击
         this.touchEventHandler()
         window.cancelAnimationFrame(this.aniId);
-
         this.aniId = window.requestAnimationFrame(
             this.bindLoop,
             canvas
@@ -56,29 +54,20 @@ export default class Main {
     touchEventHandler() {
         canvas.addEventListener('touchstart', ((e) => {
             e.preventDefault()
-            let x = e.touches[0].clientX
-            let y = e.touches[0].clientY
-            let startBtn = databus.startBtn
-            if (x >= startBtn.startX &&
-                x <= startBtn.endX &&
-                y >= startBtn.startY &&
-                y <= startBtn.endY) {
-                console.log(7777);
-
-                this.ready();
-            } else {
-                console.log(77);
+            // this.renderReadyTime();
+            if (databus.startNum) {
+                this.ready()
             }
-        }).bind(this))
 
+        }).bind(this))
     }
     // 开始游戏按钮
     startGame() {
         ctx.fillStyle = "red"
         ctx.font = "20px Arial"
         ctx.fillText(
-            `点击开始游戏`,
-            screenWidth / 2 - 50,
+            `轻触屏幕即可开始游戏`,
+            screenWidth / 2 - 100,
             screenHeight / 2 - 100 + 355
         )
     }
@@ -86,7 +75,6 @@ export default class Main {
     renderReadyTime() {
         ctx.fillStyle = "#ffffff"
         ctx.font = "20px Arial"
-
         ctx.fillText(
             `准备好；要开始了 ${databus.startNum} s`,
             100,
@@ -97,10 +85,19 @@ export default class Main {
     renderGameScore(ctx, score) {
         ctx.fillStyle = "#ffffff"
         ctx.font = "20px Arial"
-
         ctx.fillText(
             '当前分数：' + score,
             100,
+            100, 100, 100
+        )
+    }
+    // 游戏剩余时间
+    showGameSurplusTime(ctx, surplustime) {
+        ctx.fillStyle = "#ffffff"
+        ctx.font = "20px Arial"
+        ctx.fillText(
+            `时间剩余： ${surplustime} s`,
+            200,
             100, 100, 100
         )
     }
@@ -119,19 +116,38 @@ export default class Main {
                 ani.aniRender(ctx)
             }
         })
-        // this.renderReadyTime();
-        // this.touchEventHandler()
-        this.startGame()
+        if (databus.startNum > 0) {
+            this.startGame()
+            this.renderReadyTime();
+        }
         this.renderGameScore(ctx, databus.score)
+        if (databus.startNum <= 0) {
+            // 显示文案
+            this.showGameSurplusTime(ctx, databus.surplustime)
 
+        }
     }
-
-    // 倒计时
+    // 开始倒计时
     ready() {
+        let that = this;
         let time1 = setInterval(function () {
             databus.startNum--;
             if (databus.startNum <= 0) {
+                // 游戏结束
                 clearInterval(time1);
+                // 文案开始倒计时
+                that.gameSurplusTime();
+            }
+        }, 1000)
+
+    }
+    // 游戏剩余文案倒计时
+    gameSurplusTime() {
+        let time2 = setInterval(function () {
+            databus.surplustime--;
+            if (databus.surplustime <= 0) {
+                // 游戏结束
+                clearInterval(time2);
             }
         }, 1000)
     }

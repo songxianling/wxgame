@@ -14,6 +14,7 @@ export default class DataBus {
     init() {
         this.frame = 0
         this.score = 0
+        this.surplustime = 30
         this.bullets = []
         this.enemys = []
         this.gameOver = false
