@@ -7,9 +7,9 @@ export default class Main {
     constructor() {
         // 维护当前requestAnimationFrame的id
         this.aniId = 0
-
+        this.time1
+        this.time2
         this.restart();
-        // this.ready();
     }
     restart() {
         databus.init();
@@ -25,10 +25,9 @@ export default class Main {
             enemy.visible = false
             databus.enemys.push(enemy)
         }
-        this.renderGameScore(ctx, databus.score)
         this.bindLoop = this.loop.bind(this)
         // 清除上一局的动画
-        console.log('重新开始游戏');
+        databus.startNum = 3
         // 监听按钮点击
         this.touchEventHandler()
         window.cancelAnimationFrame(this.aniId);
@@ -46,20 +45,41 @@ export default class Main {
                 databus.enemys[i].visible = true
             }
             setTimeout(function () {
+                if (!databus.enemys.length) {
+                    return
+                }
                 databus.enemys[i].visible = false
             }, 3000)
         }
     }
-    // 触摸开始按钮
+    // 触摸按钮开始
     touchEventHandler() {
-        canvas.addEventListener('touchstart', ((e) => {
+        canvas.addEventListener('touchstart', ((e) => {           
             e.preventDefault()
-            // this.renderReadyTime();
             if (databus.startNum) {
                 this.ready()
+                databus.touchStartGame = true
             }
-
+            if (!databus.touchStartGame) {
+                this.restart()
+            }
         }).bind(this))
+    }
+    // 开始倒计时
+    ready() {
+        let that = this;
+        clearInterval(that.time1);
+        that.time1 = setInterval(function () {
+            console.log('定时器1');
+            databus.startNum--;
+            if (databus.startNum <= 0) {
+                // 倒计时结束
+                clearInterval(that.time1);
+                // 文案开始倒计时
+                that.gameSurplusTime();
+            }
+        }, 1000)
+
     }
     // 开始游戏按钮
     startGame() {
@@ -71,7 +91,7 @@ export default class Main {
             screenHeight / 2 - 100 + 355
         )
     }
-    // 开始倒计时
+    // 开始倒计时的文案
     renderReadyTime() {
         ctx.fillStyle = "#ffffff"
         ctx.font = "20px Arial"
@@ -102,7 +122,8 @@ export default class Main {
         )
     }
     render() {
-        // ctx.clearRect(0, 0, canvas.width, canvas.height)
+        // 此render函数的执行间隔时长为30ms；如果尽量里面不写方法的执行；只做一些展示的函数执行池
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
         this.bg.render(ctx)
         databus.bullets
             .concat(databus.enemys)
@@ -116,38 +137,39 @@ export default class Main {
                 ani.aniRender(ctx)
             }
         })
-        if (databus.startNum > 0) {
+        // 游戏结束并且没有去触摸开始游戏
+        if (!databus.touchStartGame) {
+            // 显示开始游戏按钮
             this.startGame()
-            this.renderReadyTime();
         }
+        // 开始倒计时没有结束并且去触摸了开始按钮
+        if (databus.startNum > 0 && databus.touchStartGame) {
+            // 显示开始倒计时321
+            this.renderReadyTime()
+        }
+        // 一直显示当前分数
         this.renderGameScore(ctx, databus.score)
+        // 开始游戏了
         if (databus.startNum <= 0) {
-            // 显示文案
+            // 显示剩余时间文案
             this.showGameSurplusTime(ctx, databus.surplustime)
 
         }
     }
-    // 开始倒计时
-    ready() {
-        let that = this;
-        let time1 = setInterval(function () {
-            databus.startNum--;
-            if (databus.startNum <= 0) {
-                // 游戏结束
-                clearInterval(time1);
-                // 文案开始倒计时
-                that.gameSurplusTime();
-            }
-        }, 1000)
 
-    }
-    // 游戏剩余文案倒计时
+    // 游戏剩余时间文案倒计时
     gameSurplusTime() {
-        let time2 = setInterval(function () {
+        let that = this
+        clearInterval(that.time1)
+        that.time2 = setInterval(function () {
+            console.log('定时器2');
             databus.surplustime--;
             if (databus.surplustime <= 0) {
                 // 游戏结束
-                clearInterval(time2);
+                databus.enemys = []
+                databus.gameOver = true
+                databus.touchStartGame = false
+                clearInterval(that.time2);
             }
         }, 1000)
     }
@@ -161,6 +183,7 @@ export default class Main {
         }
     }
     loop() {
+
         databus.frame++
 
             this.update()

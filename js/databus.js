@@ -14,10 +14,11 @@ export default class DataBus {
     init() {
         this.frame = 0
         this.score = 0
-        this.surplustime = 30
+        this.surplustime = 7
         this.bullets = []
         this.enemys = []
         this.gameOver = false
+        this.touchStartGame = false
         this.animations = []
         this.startNum = 3
         this.startBtn = {
