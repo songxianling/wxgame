@@ -9,6 +9,7 @@ export default class Main {
         this.aniId = 0
         this.time1
         this.time2
+        this.time3
         this.restart();
     }
     restart() {
@@ -27,6 +28,7 @@ export default class Main {
         }
         this.bindLoop = this.loop.bind(this)
         // 清除上一局的动画
+        clearInterval(this.time3);
         databus.startNum = 3
         // 监听按钮点击
         this.touchEventHandler()
@@ -43,18 +45,19 @@ export default class Main {
             let i = rnd(0, 9);
             if (!databus.enemys[i].visible) {
                 databus.enemys[i].visible = true
+                this.time3 = setTimeout(function () {
+                    if (!databus.enemys.length) {
+                        return
+                    }
+                    databus.enemys[i].visible = false
+                }, 3000)
             }
-            setTimeout(function () {
-                if (!databus.enemys.length) {
-                    return
-                }
-                databus.enemys[i].visible = false
-            }, 3000)
+
         }
     }
     // 触摸按钮开始
     touchEventHandler() {
-        canvas.addEventListener('touchstart', ((e) => {           
+        canvas.addEventListener('touchstart', ((e) => {
             e.preventDefault()
             if (databus.startNum) {
                 this.ready()
@@ -70,7 +73,6 @@ export default class Main {
         let that = this;
         clearInterval(that.time1);
         that.time1 = setInterval(function () {
-            console.log('定时器1');
             databus.startNum--;
             if (databus.startNum <= 0) {
                 // 倒计时结束
@@ -160,9 +162,8 @@ export default class Main {
     // 游戏剩余时间文案倒计时
     gameSurplusTime() {
         let that = this
-        clearInterval(that.time1)
+        clearInterval(that.time2)
         that.time2 = setInterval(function () {
-            console.log('定时器2');
             databus.surplustime--;
             if (databus.surplustime <= 0) {
                 // 游戏结束

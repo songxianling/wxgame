@@ -100,8 +100,6 @@ export default class Player extends Sprite {
                 }
                 this.setAirPosAcrossFingerPosZ(x, y)
             }
-            console.log(databus.startBtn);
-            
         }).bind(this))
         canvas.addEventListener('touchend', ((e) => {
             e.preventDefault()
