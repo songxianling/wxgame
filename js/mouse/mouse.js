@@ -37,13 +37,6 @@ export default class Mouse extends Animation {
         this[__.speed] = speed
         this.visible = true
     }
-    // 每一帧更新子弹位置
-    update() {
-        // 对象回收
-        setTimeout(function(){
-            databus.removeEnemey(this)
-        },3000)
-    }
     // 爆炸
     initExplosionAnimation() {
         let frames = []

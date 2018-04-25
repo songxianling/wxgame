@@ -1,4 +1,5 @@
 import BackGround from './runtime/background';
+import GameInfo from './runtime/gameinfo';
 import Player from './player/index';
 import Mouse from './mouse/mouse';
 
@@ -13,10 +14,11 @@ export default class Main {
         this.restart();
     }
     restart() {
+        wx.onShareAppMessage({})
         databus.init();
         this.bg = new BackGround(ctx);
         this.player = new Player(ctx);
-        // this.mouse1 = new Mouse(ctx);
+        // this.gameinfo = new GameInfo();
         this.loop();
         // 创建地鼠
         for (let i = 0; i < 9; i++) {
@@ -37,6 +39,19 @@ export default class Main {
             this.bindLoop,
             canvas
         )
+        
+        wx.login({
+            success: (res) => {
+                wx.getUserInfo({
+                    success: res => {
+
+                        console.log(res);
+                    }
+                })
+
+
+            }
+        })
     }
 
     // 随机显示地鼠
@@ -52,7 +67,6 @@ export default class Main {
                     databus.enemys[i].visible = false
                 }, 3000)
             }
-
         }
     }
     // 触摸按钮开始
@@ -108,7 +122,7 @@ export default class Main {
         ctx.fillStyle = "#ffffff"
         ctx.font = "20px Arial"
         ctx.fillText(
-            '当前分数：' + score,
+            `当前分数：${score}`,
             100,
             100, 100, 100
         )
@@ -142,6 +156,7 @@ export default class Main {
         // 游戏结束并且没有去触摸开始游戏
         if (!databus.touchStartGame) {
             // 显示开始游戏按钮
+            // this.gameinfo.renderGameOver(ctx, databus.score)
             this.startGame()
         }
         // 开始倒计时没有结束并且去触摸了开始按钮
@@ -196,3 +211,5 @@ export default class Main {
 function rnd(start, end) {
     return Math.floor(Math.random() * (end - start) + start)
 }
+console.log(wx.onShareAppMessage);
+
